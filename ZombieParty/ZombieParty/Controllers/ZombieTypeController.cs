@@ -1,20 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using ZombieParty.Models;
 
 namespace ZombieParty.Controllers
 {
+
+    private BaseDonnees _baseDonnees { get; set; }
+
     public class ZombieTypeController : Controller
     {
         public IActionResult Index()
         {
-            this.ViewBag.MaListe = new List<ZombieType>()
-            {
-                new ZombieType(){TypeName= "Virus", Id=1},
-                new ZombieType(){TypeName= "Contact", Id=2}
-            };
-
+            this.ViewBag.MaListe = _baseDonnees.ZombieTypes.ToList();
             return View();
         }
+        public class ZombieType
+        {
+            public int Id { get; set; }
+            [DisplayName("Type Name")]
+            [Required(AllowEmptyStrings = false, ErrorMessage = "{0}Type Name has to be filled.")]
+            public string TypeName { get; set; }
+        }
+
 
         //GET CREATE
         public IActionResult Create()
@@ -28,7 +36,8 @@ namespace ZombieParty.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Ajouter à la BD
+                _baseDonnees.ZombieTypes.Add(zombieType);
+                return this.RedirectToAction("Index");
             }
 
             return this.View(zombieType);
