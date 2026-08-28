@@ -1,7 +1,12 @@
+using System.Buffers.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Injection des dépendances
+builder.Services.AddSingleton<BaseDonnees>();
 
 var app = builder.Build();
 

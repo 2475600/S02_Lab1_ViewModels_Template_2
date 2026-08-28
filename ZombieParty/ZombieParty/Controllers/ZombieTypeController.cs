@@ -5,11 +5,10 @@ using ZombieParty.Models;
 
 namespace ZombieParty.Controllers
 {
-
-    private BaseDonnees _baseDonnees { get; set; }
-
     public class ZombieTypeController : Controller
     {
+        private BaseDonnees _baseDonnees { get; set; }
+
         public IActionResult Index()
         {
             this.ViewBag.MaListe = _baseDonnees.ZombieTypes.ToList();
